@@ -1,138 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Test</title>
 
-    <style>
-        body{
-            font-family: Arial;
-            background:#f4f4f4;
-            padding:20px;
-        }
+<meta charset="UTF-8">
 
-        .container{
-            max-width:900px;
-            margin:auto;
-            background:white;
-            padding:20px;
-            border-radius:10px;
-        }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        .question{
-            margin-bottom:25px;
-            padding:15px;
-            border:1px solid #ddd;
-            border-radius:8px;
-        }
+<title>Mock Test</title>
 
-        button{
-            background:blue;
-            color:white;
-            border:none;
-            padding:12px 20px;
-            cursor:pointer;
-            border-radius:5px;
-        }
+<style>
 
-        #timer{
-            font-size:25px;
-            color:red;
-            margin-bottom:20px;
-            font-weight:bold;
-        }
-    </style>
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+.question{
+    border:1px solid #ccc;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+}
+
+.option{
+    padding:10px;
+    margin-top:10px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:blue;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+#timer{
+    font-size:30px;
+    color:red;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>Mock Test</h1>
+    <h1 align="center">
+        Online Mock Test
+    </h1>
 
     <div id="timer">
         01:00:00
     </div>
 
-    <form id="quizForm">
+    <div id="questionsContainer"></div>
 
-        <div id="questionsContainer"></div>
-
-        <button type="submit">
-            Submit Test
-        </button>
-
-    </form>
+    <button onclick="submitTest()">
+        Submit Test
+    </button>
 
 </div>
 
 <script>
 
-const questions = [];
+let questions = [];
 
-for(let i=1; i<=50; i++){
 
-    questions.push({
-        question: `Question ${i}: What is ${i} + ${i}?`,
-        options: [
-            `${i}`,
-            `${i*2}`,
-            `${i+5}`,
-            `${i*3}`
-        ],
-        answer: `${i*2}`
+// LOAD QUESTIONS
+
+async function loadQuestions(){
+
+    try{
+
+        const response =
+        await fetch('/api/questions');
+
+        questions =
+        await response.json();
+
+        displayQuestions();
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+// DISPLAY QUESTIONS
+
+function displayQuestions(){
+
+    const container =
+    document.getElementById(
+        "questionsContainer"
+    );
+
+    container.innerHTML = "";
+
+    questions.forEach((q,index)=>{
+
+        container.innerHTML += `
+
+        <div class="question">
+
+            <h3>
+                ${index+1}.
+                ${q.question}
+            </h3>
+
+            <div class="option">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="q${index}"
+                        value="${q.option1}"
+                    >
+
+                    ${q.option1}
+
+                </label>
+
+            </div>
+
+            <div class="option">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="q${index}"
+                        value="${q.option2}"
+                    >
+
+                    ${q.option2}
+
+                </label>
+
+            </div>
+
+            <div class="option">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="q${index}"
+                        value="${q.option3}"
+                    >
+
+                    ${q.option3}
+
+                </label>
+
+            </div>
+
+            <div class="option">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="q${index}"
+                        value="${q.option4}"
+                    >
+
+                    ${q.option4}
+
+                </label>
+
+            </div>
+
+        </div>
+
+        `;
+
     });
 
 }
 
-const container = document.getElementById("questionsContainer");
 
-questions.forEach((q,index)=>{
-
-    let html = `
-    
-    <div class="question">
-
-        <h3>${index+1}. ${q.question}</h3>
-
-        ${q.options.map(option => `
-        
-            <label>
-                <input type="radio" 
-                       name="q${index}" 
-                       value="${option}">
-                ${option}
-            </label>
-
-            <br>
-
-        `).join('')}
-
-    </div>
-    
-    `;
-
-    container.innerHTML += html;
-
-});
+loadQuestions();
 
 
 // TIMER
 
 let timeLeft = 3600;
 
-const timer = document.getElementById("timer");
+const timer =
+document.getElementById("timer");
 
 const countdown = setInterval(()=>{
 
-    let hours = Math.floor(timeLeft / 3600);
-    let minutes = Math.floor((timeLeft % 3600)/60);
-    let seconds = timeLeft % 60;
+    let hours =
+    Math.floor(timeLeft / 3600);
+
+    let minutes =
+    Math.floor(
+        (timeLeft % 3600)/60
+    );
+
+    let seconds =
+    timeLeft % 60;
 
     timer.innerHTML =
-        `${String(hours).padStart(2,'0')}:` +
-        `${String(minutes).padStart(2,'0')}:` +
-        `${String(seconds).padStart(2,'0')}`;
+
+    `${String(hours).padStart(2,'0')}:`
+
+    +
+
+    `${String(minutes).padStart(2,'0')}:`
+
+    +
+
+    `${String(seconds).padStart(2,'0')}`;
 
     timeLeft--;
 
@@ -147,17 +253,7 @@ const countdown = setInterval(()=>{
 },1000);
 
 
-// SUBMIT
-
-document.getElementById("quizForm")
-.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    submitTest();
-
-});
-
+// SUBMIT TEST
 
 function submitTest(){
 
@@ -168,61 +264,173 @@ function submitTest(){
     questions.forEach((q,index)=>{
 
         const selected =
-        document.querySelector(`input[name="q${index}"]:checked`);
+        document.querySelector(
+            `input[name="q${index}"]:checked`
+        );
 
         let userAnswer =
-            selected ? selected.value : "Not Answered";
+        selected
+        ?
+        selected.value
+        :
+        "Not Answered";
 
         let correct =
-            userAnswer === q.answer;
+        userAnswer === q.answer;
+
+
+        // SCORE
 
         if(correct){
+
             score++;
+
         }
+        else if(
+            userAnswer !== "Not Answered"
+        ){
+
+            score -= 0.25;
+
+        }
+
+
+        // RESULT DISPLAY
 
         resultHTML += `
 
+        <div style="
+            border:1px solid #ccc;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        ">
+
+            <h3>
+                ${index+1}.
+                ${q.question}
+            </h3>
+
             <div style="
-                margin-bottom:20px;
-                padding:15px;
-                border:1px solid #ccc;
-                border-radius:8px;
+                padding:10px;
+                margin-top:10px;
+                background:
+                ${
+                    q.option1 === q.answer
+                    ?
+                    'lightgreen'
+                    :
+                    q.option1 === userAnswer
+                    ?
+                    '#ffb3b3'
+                    :
+                    '#f4f4f4'
+                };
             ">
 
-                <h3>${index+1}. ${q.question}</h3>
-
-                <p>
-                    Your Answer:
-                    <b>${userAnswer}</b>
-                </p>
-
-                <p>
-                    Correct Answer:
-                    <b style="color:green;">
-                        ${q.answer}
-                    </b>
-                </p>
-
-                <p>
-                    Result:
-                    <b style="
-                        color:${correct ? 'green':'red'}
-                    ">
-                        ${correct ? 'Correct':'Wrong'}
-                    </b>
-                </p>
+                ${q.option1}
 
             </div>
+
+            <div style="
+                padding:10px;
+                margin-top:10px;
+                background:
+                ${
+                    q.option2 === q.answer
+                    ?
+                    'lightgreen'
+                    :
+                    q.option2 === userAnswer
+                    ?
+                    '#ffb3b3'
+                    :
+                    '#f4f4f4'
+                };
+            ">
+
+                ${q.option2}
+
+            </div>
+
+            <div style="
+                padding:10px;
+                margin-top:10px;
+                background:
+                ${
+                    q.option3 === q.answer
+                    ?
+                    'lightgreen'
+                    :
+                    q.option3 === userAnswer
+                    ?
+                    '#ffb3b3'
+                    :
+                    '#f4f4f4'
+                };
+            ">
+
+                ${q.option3}
+
+            </div>
+
+            <div style="
+                padding:10px;
+                margin-top:10px;
+                background:
+                ${
+                    q.option4 === q.answer
+                    ?
+                    'lightgreen'
+                    :
+                    q.option4 === userAnswer
+                    ?
+                    '#ffb3b3'
+                    :
+                    '#f4f4f4'
+                };
+            ">
+
+                ${q.option4}
+
+            </div>
+
+            <br>
+
+            <b>
+                Your Answer:
+            </b>
+
+            ${userAnswer}
+
+            <br><br>
+
+            <b>
+                Correct Answer:
+            </b>
+
+            ${q.answer}
+
+        </div>
 
         `;
 
     });
 
-    localStorage.setItem("score", score);
 
-    localStorage.setItem("resultHTML", resultHTML);
+    localStorage.setItem(
+        "score",
+        score
+    );
 
-    window.location.href = "/result.html";
+    localStorage.setItem(
+        "resultHTML",
+        resultHTML
+    );
+
+
+    window.location.href =
+    '/result';
 
 }
 

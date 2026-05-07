@@ -1,0 +1,866 @@
+[
+{
+"question":"What is the normal body temperature of a human body?",
+"option1":"35°C",
+"option2":"37°C",
+"option3":"39°C",
+"option4":"40°C",
+"answer":"37°C"
+},
+{
+"question":"Which organ purifies blood in the human body?",
+"option1":"Heart",
+"option2":"Kidney",
+"option3":"Liver",
+"option4":"Lungs",
+"answer":"Kidney"
+},
+{
+"question":"How many bones are present in the adult human body?",
+"option1":"206",
+"option2":"210",
+"option3":"201",
+"option4":"212",
+"answer":"206"
+},
+{
+"question":"Which vitamin is produced in sunlight?",
+"option1":"Vitamin A",
+"option2":"Vitamin B",
+"option3":"Vitamin C",
+"option4":"Vitamin D",
+"answer":"Vitamin D"
+},
+{
+"question":"Blood pressure is measured using which instrument?",
+"option1":"Thermometer",
+"option2":"Sphygmomanometer",
+"option3":"Barometer",
+"option4":"Hygrometer",
+"answer":"Sphygmomanometer"
+},
+{
+"question":"Which blood group is known as the universal donor?",
+"option1":"A",
+"option2":"B",
+"option3":"O Negative",
+"option4":"AB Positive",
+"answer":"O Negative"
+},
+{
+"question":"Which gas is essential for human respiration?",
+"option1":"Nitrogen",
+"option2":"Carbon Dioxide",
+"option3":"Oxygen",
+"option4":"Helium",
+"answer":"Oxygen"
+},
+{
+"question":"The largest organ in the human body is:",
+"option1":"Brain",
+"option2":"Liver",
+"option3":"Skin",
+"option4":"Heart",
+"answer":"Skin"
+},
+{
+"question":"Which part of the body controls all activities?",
+"option1":"Heart",
+"option2":"Brain",
+"option3":"Kidney",
+"option4":"Lungs",
+"answer":"Brain"
+},
+{
+"question":"The normal pulse rate of an adult is:",
+"option1":"20–40",
+"option2":"40–60",
+"option3":"60–100",
+"option4":"120–150",
+"answer":"60–100"
+},
+{
+"question":"What is 25 × 4?",
+"option1":"50",
+"option2":"75",
+"option3":"100",
+"option4":"125",
+"answer":"100"
+},
+{
+"question":"What is the square root of 144?",
+"option1":"10",
+"option2":"11",
+"option3":"12",
+"option4":"13",
+"answer":"12"
+},
+{
+"question":"Solve: 15 + 20 ÷ 5",
+"option1":"7",
+"option2":"19",
+"option3":"25",
+"option4":"35",
+"answer":"19"
+},
+{
+"question":"What is 30% of 200?",
+"option1":"40",
+"option2":"50",
+"option3":"60",
+"option4":"70",
+"answer":"60"
+},
+{
+"question":"If a pen costs ₹20, what is the cost of 5 pens?",
+"option1":"₹50",
+"option2":"₹80",
+"option3":"₹100",
+"option4":"₹120",
+"answer":"₹100"
+},
+{
+"question":"What is the value of 12²?",
+"option1":"124",
+"option2":"132",
+"option3":"144",
+"option4":"156",
+"answer":"144"
+},
+{
+"question":"Capital of India?",
+"option1":"Delhi",
+"option2":"Mumbai",
+"option3":"Chennai",
+"option4":"Kolkata",
+"answer":"Delhi"
+},
+{
+"question":"2 x 6 = ?",
+"option1":"10",
+"option2":"11",
+"option3":"12",
+"option4":"13",
+"answer":"12"
+},
+{
+"question":"Largest planet?",
+"option1":"Mars",
+"option2":"Earth",
+"option3":"Jupiter",
+"option4":"Venus",
+"answer":"Jupiter"
+},
+{
+"question":"HTML stands for?",
+"option1":"Hyper Text Markup Language",
+"option2":"High Text Language",
+"option3":"Hyper Transfer Markup",
+"option4":"Home Tool Markup",
+"answer":"Hyper Text Markup Language"
+},
+{
+"question":"Who is known as the Father of the Nation in India?",
+"option1":"Bhagat Singh",
+"option2":"Mahatma Gandhi",
+"option3":"Nehru",
+"option4":"Subhash Chandra Bose",
+"answer":"Mahatma Gandhi"
+},
+{
+"question":"National animal of India is:",
+"option1":"Lion",
+"option2":"Elephant",
+"option3":"Tiger",
+"option4":"Peacock",
+"answer":"Tiger"
+},
+{
+"question":"National bird of India is:",
+"option1":"Sparrow",
+"option2":"Peacock",
+"option3":"Crow",
+"option4":"Pigeon",
+"answer":"Peacock"
+},
+{
+"question":"Which disease spreads through mosquitoes?",
+"option1":"Diabetes",
+"option2":"Malaria",
+"option3":"Cancer",
+"option4":"Asthma",
+"answer":"Malaria"
+},
+{
+"question":"What is the boiling point of water?",
+"option1":"50°C",
+"option2":"75°C",
+"option3":"100°C",
+"option4":"150°C",
+"answer":"100°C"
+},
+{
+"question":"Which organ pumps blood?",
+"option1":"Brain",
+"option2":"Kidney",
+"option3":"Heart",
+"option4":"Liver",
+"answer":"Heart"
+},
+{
+"question":"Which mineral is important for bones?",
+"option1":"Iron",
+"option2":"Calcium",
+"option3":"Sodium",
+"option4":"Zinc",
+"answer":"Calcium"
+},
+{
+"question":"CPU stands for:",
+"option1":"Central Process Unit",
+"option2":"Central Processing Unit",
+"option3":"Computer Processing Unit",
+"option4":"Control Processing Unit",
+"answer":"Central Processing Unit"
+},
+{
+"question":"Which device is used to type text?",
+"option1":"Mouse",
+"option2":"Monitor",
+"option3":"Keyboard",
+"option4":"Printer",
+"answer":"Keyboard"
+},
+{
+"question":"RAM stands for:",
+"option1":"Read Access Memory",
+"option2":"Random Access Memory",
+"option3":"Run Access Memory",
+"option4":"Rapid Access Memory",
+"answer":"Random Access Memory"
+},
+{
+"question":"Which planet is known as the Red Planet?",
+"option1":"Mars",
+"option2":"Earth",
+"option3":"Venus",
+"option4":"Jupiter",
+"answer":"Mars"
+},
+{
+"question":"What is 50 + 25?",
+"option1":"60",
+"option2":"70",
+"option3":"75",
+"option4":"80",
+"answer":"75"
+},
+{
+"question":"How many days are there in a leap year?",
+"option1":"365",
+"option2":"366",
+"option3":"364",
+"option4":"360",
+"answer":"366"
+},
+{
+"question":"Which animal is called the King of Jungle?",
+"option1":"Tiger",
+"option2":"Elephant",
+"option3":"Lion",
+"option4":"Leopard",
+"answer":"Lion"
+},
+{
+"question":"Which language is used for web page styling?",
+"option1":"HTML",
+"option2":"Python",
+"option3":"CSS",
+"option4":"Java",
+"answer":"CSS"
+},
+{
+"question":"Which tag is used for image in HTML?",
+"option1":"<img>",
+"option2":"<image>",
+"option3":"<pic>",
+"option4":"<src>",
+"answer":"<img>"
+},
+{
+"question":"What is 9 × 9?",
+"option1":"72",
+"option2":"81",
+"option3":"99",
+"option4":"90",
+"answer":"81"
+},
+{
+"question":"Who invented the telephone?",
+"option1":"Newton",
+"option2":"Alexander Graham Bell",
+"option3":"Edison",
+"option4":"Tesla",
+"answer":"Alexander Graham Bell"
+},
+{
+"question":"Which country is famous for the Eiffel Tower?",
+"option1":"India",
+"option2":"USA",
+"option3":"France",
+"option4":"Germany",
+"answer":"France"
+},
+{
+"question":"Which is the smallest prime number?",
+"option1":"0",
+"option2":"1",
+"option3":"2",
+"option4":"3",
+"answer":"2"
+},
+{
+"question":"Which gas do plants absorb?",
+"option1":"Oxygen",
+"option2":"Hydrogen",
+"option3":"Carbon Dioxide",
+"option4":"Nitrogen",
+"answer":"Carbon Dioxide"
+},
+{
+"question":"What is the currency of India?",
+"option1":"Dollar",
+"option2":"Euro",
+"option3":"Rupee",
+"option4":"Yen",
+"answer":"Rupee"
+},
+{
+"question":"Which ocean is the largest?",
+"option1":"Atlantic",
+"option2":"Indian",
+"option3":"Pacific",
+"option4":"Arctic",
+"answer":"Pacific"
+},
+{
+"question":"What is 100 ÷ 5?",
+"option1":"10",
+"option2":"15",
+"option3":"20",
+"option4":"25",
+"answer":"20"
+},
+{
+"question":"Which is the national flower of India?",
+"option1":"Rose",
+"option2":"Lotus",
+"option3":"Sunflower",
+"option4":"Lily",
+"answer":"Lotus"
+},
+{
+"question":"Which is the fastest land animal?",
+"option1":"Tiger",
+"option2":"Horse",
+"option3":"Cheetah",
+"option4":"Lion",
+"answer":"Cheetah"
+},
+{
+"question":"What is the full form of URL?",
+"option1":"Uniform Resource Locator",
+"option2":"Universal Resource Link",
+"option3":"Unique Resource Locator",
+"option4":"Uniform Reference Link",
+"answer":"Uniform Resource Locator"
+},
+{
+"question":"Which part of computer shows output?",
+"option1":"Keyboard",
+"option2":"CPU",
+"option3":"Monitor",
+"option4":"Mouse",
+"answer":"Monitor"
+},
+{
+"question":"Which vitamin helps in vision?",
+"option1":"Vitamin A",
+"option2":"Vitamin B",
+"option3":"Vitamin C",
+"option4":"Vitamin D",
+"answer":"Vitamin A"
+},
+{
+"question":"What is 11 × 11?",
+"option1":"111",
+"option2":"121",
+"option3":"131",
+"option4":"141",
+"answer":"121"
+},
+{
+"question":"Which is the largest mammal?",
+"option1":"Elephant",
+"option2":"Blue Whale",
+"option3":"Shark",
+"option4":"Giraffe",
+"answer":"Blue Whale"
+},
+{
+"question":"How many continents are there?",
+"option1":"5",
+"option2":"6",
+"option3":"7",
+"option4":"8",
+"answer":"7"
+},
+{
+"question":"Which gas is used in balloons?",
+"option1":"Helium",
+"option2":"Oxygen",
+"option3":"Carbon Dioxide",
+"option4":"Nitrogen",
+"answer":"Helium"
+},
+{
+"question":"What is 7²?",
+"option1":"42",
+"option2":"49",
+"option3":"56",
+"option4":"64",
+"answer":"49"
+},
+{
+"question":"Which animal gives wool?",
+"option1":"Cow",
+"option2":"Dog",
+"option3":"Sheep",
+"option4":"Horse",
+"answer":"Sheep"
+},
+{
+"question":"Who wrote Ramayana?",
+"option1":"Valmiki",
+"option2":"Kalidas",
+"option3":"Tulsidas",
+"option4":"Veda Vyasa",
+"answer":"Valmiki"
+},
+{
+"question":"What is the capital of Telangana?",
+"option1":"Warangal",
+"option2":"Hyderabad",
+"option3":"Nizamabad",
+"option4":"Karimnagar",
+"answer":"Hyderabad"
+},
+{
+"question":"What is 18 + 12?",
+"option1":"20",
+"option2":"25",
+"option3":"30",
+"option4":"35",
+"answer":"30"
+},
+{
+"question":"Which is the hardest natural substance?",
+"option1":"Gold",
+"option2":"Diamond",
+"option3":"Silver",
+"option4":"Iron",
+"answer":"Diamond"
+},
+{
+"question":"Which planet is closest to the sun?",
+"option1":"Mercury",
+"option2":"Venus",
+"option3":"Earth",
+"option4":"Mars",
+"answer":"Mercury"
+},
+{
+"question":"What is 15 × 2?",
+"option1":"25",
+"option2":"30",
+"option3":"35",
+"option4":"40",
+"answer":"30"
+},
+{
+"question":"Which organ helps in breathing?",
+"option1":"Liver",
+"option2":"Lungs",
+"option3":"Brain",
+"option4":"Kidney",
+"answer":"Lungs"
+},
+{
+"question":"What is the national currency of USA?",
+"option1":"Rupee",
+"option2":"Dollar",
+"option3":"Yen",
+"option4":"Euro",
+"answer":"Dollar"
+},
+{
+"question":"Which festival is called the Festival of Lights?",
+"option1":"Holi",
+"option2":"Eid",
+"option3":"Diwali",
+"option4":"Christmas",
+"answer":"Diwali"
+},
+{
+"question":"What is 200 ÷ 10?",
+"option1":"10",
+"option2":"20",
+"option3":"30",
+"option4":"40",
+"answer":"20"
+},
+{
+"question":"Which bird can mimic human voice?",
+"option1":"Crow",
+"option2":"Parrot",
+"option3":"Pigeon",
+"option4":"Peacock",
+"answer":"Parrot"
+},
+{
+"question":"What does WWW stand for?",
+"option1":"World Wide Web",
+"option2":"Wide World Web",
+"option3":"World Web Wide",
+"option4":"Web World Wide",
+"answer":"World Wide Web"
+},
+{
+"question":"Which metal is liquid at room temperature?",
+"option1":"Iron",
+"option2":"Mercury",
+"option3":"Silver",
+"option4":"Gold",
+"answer":"Mercury"
+},
+{
+"question":"What is 5³?",
+"option1":"25",
+"option2":"75",
+"option3":"100",
+"option4":"125",
+"answer":"125"
+},
+{
+"question":"Which country gifted Statue of Liberty to USA?",
+"option1":"India",
+"option2":"France",
+"option3":"Germany",
+"option4":"Italy",
+"answer":"France"
+},
+{
+"question":"Which is the tallest animal?",
+"option1":"Elephant",
+"option2":"Camel",
+"option3":"Giraffe",
+"option4":"Horse",
+"answer":"Giraffe"
+},
+{
+"question":"How many hours are there in one day?",
+"option1":"12",
+"option2":"18",
+"option3":"24",
+"option4":"36",
+"answer":"24"
+},
+{
+"question":"Which is the national game of India?",
+"option1":"Cricket",
+"option2":"Football",
+"option3":"Hockey",
+"option4":"Kabaddi",
+"answer":"Hockey"
+},
+{
+"question":"Which device prints documents?",
+"option1":"Mouse",
+"option2":"Keyboard",
+"option3":"Printer",
+"option4":"CPU",
+"answer":"Printer"
+},
+{
+"question":"What is 99 + 1?",
+"option1":"99",
+"option2":"100",
+"option3":"101",
+"option4":"102",
+"answer":"100"
+},
+{
+"question":"Who discovered gravity?",
+"option1":"Einstein",
+"option2":"Newton",
+"option3":"Galileo",
+"option4":"Tesla",
+"answer":"Newton"
+},
+{
+"question":"Which month has 28 days?",
+"option1":"February",
+"option2":"April",
+"option3":"June",
+"option4":"September",
+"answer":"February"
+},
+{
+"question":"What is the color of chlorophyll?",
+"option1":"Red",
+"option2":"Blue",
+"option3":"Green",
+"option4":"Yellow",
+"answer":"Green"
+},
+{
+"question":"Which gas is used for cooking?",
+"option1":"LPG",
+"option2":"Oxygen",
+"option3":"Nitrogen",
+"option4":"Hydrogen",
+"answer":"LPG"
+},
+{
+"question":"What is 45 + 55?",
+"option1":"90",
+"option2":"95",
+"option3":"100",
+"option4":"110",
+"answer":"100"
+},
+{
+"question":"Which is the longest river in the world?",
+"option1":"Ganga",
+"option2":"Amazon",
+"option3":"Nile",
+"option4":"Yamuna",
+"answer":"Nile"
+},
+{
+"question":"Who is the current Prime Minister of India?",
+"option1":"Rahul Gandhi",
+"option2":"Narendra Modi",
+"option3":"Amit Shah",
+"option4":"Yogi Adityanath",
+"answer":"Narendra Modi"
+},
+{
+"question":"What is the square root of 81?",
+"option1":"7",
+"option2":"8",
+"option3":"9",
+"option4":"10",
+"answer":"9"
+},
+{
+"question":"Which part of plant absorbs water?",
+"option1":"Leaf",
+"option2":"Root",
+"option3":"Stem",
+"option4":"Flower",
+"answer":"Root"
+},
+{
+"question":"What is 14 × 3?",
+"option1":"32",
+"option2":"42",
+"option3":"52",
+"option4":"62",
+"answer":"42"
+},
+{
+"question":"Which is the nearest star to Earth?",
+"option1":"Moon",
+"option2":"Mars",
+"option3":"Sun",
+"option4":"Venus",
+"answer":"Sun"
+},
+{
+"question":"What is the chemical formula of water?",
+"option1":"CO2",
+"option2":"H2O",
+"option3":"O2",
+"option4":"NaCl",
+"answer":"H2O"
+},
+{
+"question":"Which is the largest desert?",
+"option1":"Sahara",
+"option2":"Gobi",
+"option3":"Thar",
+"option4":"Kalahari",
+"answer":"Sahara"
+},
+{
+"question":"What is 250 ÷ 5?",
+"option1":"40",
+"option2":"45",
+"option3":"50",
+"option4":"55",
+"answer":"50"
+},
+{
+"question":"Which organ stores bile?",
+"option1":"Kidney",
+"option2":"Gall Bladder",
+"option3":"Liver",
+"option4":"Pancreas",
+"answer":"Gall Bladder"
+},
+{
+"question":"Which country is known as Land of Rising Sun?",
+"option1":"India",
+"option2":"Japan",
+"option3":"China",
+"option4":"Korea",
+"answer":"Japan"
+},
+{
+"question":"What is 8 × 7?",
+"option1":"54",
+"option2":"56",
+"option3":"58",
+"option4":"60",
+"answer":"56"
+},
+{
+"question":"Which animal is known as Ship of Desert?",
+"option1":"Horse",
+"option2":"Camel",
+"option3":"Donkey",
+"option4":"Elephant",
+"answer":"Camel"
+},
+{
+"question":"Which layer protects Earth from UV rays?",
+"option1":"Ozone",
+"option2":"Nitrogen",
+"option3":"Carbon",
+"option4":"Hydrogen",
+"answer":"Ozone"
+},
+{
+"question":"What is 75% of 200?",
+"option1":"100",
+"option2":"125",
+"option3":"150",
+"option4":"175",
+"answer":"150"
+},
+{
+"question":"Who wrote the National Anthem of India?",
+"option1":"Rabindranath Tagore",
+"option2":"Bankim Chandra",
+"option3":"Gandhi",
+"option4":"Nehru",
+"answer":"Rabindranath Tagore"
+},
+{
+"question":"Which organ produces insulin?",
+"option1":"Liver",
+"option2":"Pancreas",
+"option3":"Heart",
+"option4":"Lungs",
+"answer":"Pancreas"
+},
+{
+"question":"What is 16 × 4?",
+"option1":"48",
+"option2":"56",
+"option3":"64",
+"option4":"72",
+"answer":"64"
+},
+{
+"question":"Which is the smallest continent?",
+"option1":"Asia",
+"option2":"Australia",
+"option3":"Europe",
+"option4":"Africa",
+"answer":"Australia"
+},
+{
+"question":"Which vitamin prevents scurvy?",
+"option1":"Vitamin A",
+"option2":"Vitamin B",
+"option3":"Vitamin C",
+"option4":"Vitamin D",
+"answer":"Vitamin C"
+},
+{
+"question":"What is 500 ÷ 25?",
+"option1":"10",
+"option2":"15",
+"option3":"20",
+"option4":"25",
+"answer":"20"
+},
+{
+"question":"Which is the tallest mountain in the world?",
+"option1":"K2",
+"option2":"Kanchenjunga",
+"option3":"Everest",
+"option4":"Himalaya",
+"answer":"Everest"
+},
+{
+"question":"Which blood cells fight infection?",
+"option1":"RBC",
+"option2":"WBC",
+"option3":"Platelets",
+"option4":"Plasma",
+"answer":"WBC"
+},
+{
+"question":"What is 13 + 17?",
+"option1":"20",
+"option2":"25",
+"option3":"30",
+"option4":"35",
+"answer":"30"
+},
+{
+"question":"Which is the largest continent?",
+"option1":"Asia",
+"option2":"Africa",
+"option3":"Europe",
+"option4":"Australia",
+"answer":"Asia"
+},
+{
+"question":"What is the freezing point of water?",
+"option1":"0°C",
+"option2":"10°C",
+"option3":"20°C",
+"option4":"50°C",
+"answer":"0°C"
+},
+{
+"question":"Which planet has rings?",
+"option1":"Earth",
+"option2":"Mars",
+"option3":"Saturn",
+"option4":"Venus",
+"answer":"Saturn"
+},
+{
+"question":"What is 6 × 8?",
+"option1":"42",
+"option2":"48",
+"option3":"54",
+"option4":"64",
+"answer":"48"
+}
+]
