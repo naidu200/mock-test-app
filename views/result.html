@@ -1,26 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
 
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+    <style>
 
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:20px;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+        }
+
+        h1{
+            color:blue;
+        }
+
+    </style>
+
+</head>
 <body>
 
 <div class="container">
 
-    <h1>Test Result</h1>
+    <h1>
+        Your Score:
+        <span id="score"></span>/50
+    </h1>
 
-    <h2>Your Score: 8/10</h2>
-
-    <h3>Percentage: 80%</h3>
-
-    <a href="/dashboard">
-        <button>Back To Dashboard</button>
-    </a>
+    <div id="answers"></div>
 
 </div>
+
+<script>
+
+document.getElementById("score")
+.innerHTML = localStorage.getItem("score");
+
+document.getElementById("answers")
+.innerHTML = localStorage.getItem("resultHTML");
+
+</script>
 
 </body>
 </html>

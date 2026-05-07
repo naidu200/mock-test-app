@@ -1,48 +1,232 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Test</title>
 
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            padding:20px;
+        }
 
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+        }
+
+        .question{
+            margin-bottom:25px;
+            padding:15px;
+            border:1px solid #ddd;
+            border-radius:8px;
+        }
+
+        button{
+            background:blue;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            cursor:pointer;
+            border-radius:5px;
+        }
+
+        #timer{
+            font-size:25px;
+            color:red;
+            margin-bottom:20px;
+            font-weight:bold;
+        }
+    </style>
+</head>
 <body>
 
-<div class="question-box">
+<div class="container">
 
-    <div class="timer">
-        Time Left: <span id="timer">30:00</span>
+    <h1>Mock Test</h1>
+
+    <div id="timer">
+        01:00:00
     </div>
 
-    <h2>Question 1</h2>
+    <form id="quizForm">
 
-    <p>What does HTML stand for?</p>
+        <div id="questionsContainer"></div>
 
-    <div class="option">
-        <input type="radio" name="q1"> Hyper Text Markup Language
-    </div>
+        <button type="submit">
+            Submit Test
+        </button>
 
-    <div class="option">
-        <input type="radio" name="q1"> High Transfer Machine Language
-    </div>
-
-    <div class="option">
-        <input type="radio" name="q1"> Hyperlinks Text Management Language
-    </div>
-
-    <div class="option">
-        <input type="radio" name="q1"> Home Tool Markup Language
-    </div>
-
-    <br>
-
-    <a href="/result">
-        <button>Submit Test</button>
-    </a>
+    </form>
 
 </div>
 
-<script src="/js/script.js"></script>
+<script>
+
+const questions = [];
+
+for(let i=1; i<=50; i++){
+
+    questions.push({
+        question: `Question ${i}: What is ${i} + ${i}?`,
+        options: [
+            `${i}`,
+            `${i*2}`,
+            `${i+5}`,
+            `${i*3}`
+        ],
+        answer: `${i*2}`
+    });
+
+}
+
+const container = document.getElementById("questionsContainer");
+
+questions.forEach((q,index)=>{
+
+    let html = `
+    
+    <div class="question">
+
+        <h3>${index+1}. ${q.question}</h3>
+
+        ${q.options.map(option => `
+        
+            <label>
+                <input type="radio" 
+                       name="q${index}" 
+                       value="${option}">
+                ${option}
+            </label>
+
+            <br>
+
+        `).join('')}
+
+    </div>
+    
+    `;
+
+    container.innerHTML += html;
+
+});
+
+
+// TIMER
+
+let timeLeft = 3600;
+
+const timer = document.getElementById("timer");
+
+const countdown = setInterval(()=>{
+
+    let hours = Math.floor(timeLeft / 3600);
+    let minutes = Math.floor((timeLeft % 3600)/60);
+    let seconds = timeLeft % 60;
+
+    timer.innerHTML =
+        `${String(hours).padStart(2,'0')}:` +
+        `${String(minutes).padStart(2,'0')}:` +
+        `${String(seconds).padStart(2,'0')}`;
+
+    timeLeft--;
+
+    if(timeLeft < 0){
+
+        clearInterval(countdown);
+
+        submitTest();
+
+    }
+
+},1000);
+
+
+// SUBMIT
+
+document.getElementById("quizForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    submitTest();
+
+});
+
+
+function submitTest(){
+
+    let score = 0;
+
+    let resultHTML = "";
+
+    questions.forEach((q,index)=>{
+
+        const selected =
+        document.querySelector(`input[name="q${index}"]:checked`);
+
+        let userAnswer =
+            selected ? selected.value : "Not Answered";
+
+        let correct =
+            userAnswer === q.answer;
+
+        if(correct){
+            score++;
+        }
+
+        resultHTML += `
+
+            <div style="
+                margin-bottom:20px;
+                padding:15px;
+                border:1px solid #ccc;
+                border-radius:8px;
+            ">
+
+                <h3>${index+1}. ${q.question}</h3>
+
+                <p>
+                    Your Answer:
+                    <b>${userAnswer}</b>
+                </p>
+
+                <p>
+                    Correct Answer:
+                    <b style="color:green;">
+                        ${q.answer}
+                    </b>
+                </p>
+
+                <p>
+                    Result:
+                    <b style="
+                        color:${correct ? 'green':'red'}
+                    ">
+                        ${correct ? 'Correct':'Wrong'}
+                    </b>
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+    localStorage.setItem("score", score);
+
+    localStorage.setItem("resultHTML", resultHTML);
+
+    window.location.href = "/result.html";
+
+}
+
+</script>
 
 </body>
 </html>
