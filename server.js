@@ -1,46 +1,63 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
 const multer = require('multer');
 const csv = require('csv-parser');
 const fs = require('fs');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
+// MONGODB CONNECTION
 
-// MYSQL CONNECTION
+mongoose.connect(process.env.MONGO_URL)
+.then(() => console.log("MongoDB Connected"))
+.catch((err) => console.log(err));
 
-const db = mysql.createConnection({
 
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'mock_test_db'
+// SCHEMAS
+
+const questionSchema = new mongoose.Schema({
+
+    question:String,
+    option1:String,
+    option2:String,
+    option3:String,
+    option4:String,
+    answer:String
 
 });
 
-db.connect((err)=>{
+const resultSchema = new mongoose.Schema({
 
-    if(err){
-
-        console.log(err);
-
-    } else {
-
-        console.log("MySQL Connected");
-
+    username:String,
+    score:Number,
+    total_questions:Number,
+    date:{
+        type:Date,
+        default:Date.now
     }
 
 });
 
+const Question = mongoose.model(
+    'Question',
+    questionSchema
+);
+
+const Result = mongoose.model(
+    'Result',
+    resultSchema
+);
 
 
-// MULTER STORAGE
+// FILE UPLOAD
 
 const storage = multer.diskStorage({
 
@@ -66,75 +83,43 @@ const upload = multer({
 });
 
 
-
 // ROUTES
 
 app.get('/',(req,res)=>{
 
     res.sendFile(
-        path.join(
-            __dirname,
-            'views/login.html'
-        )
+        path.join(__dirname,'views/login.html')
     );
 
 });
-
-
-
-app.get('/register.html',(req,res)=>{
-
-    res.sendFile(
-        path.join(
-            __dirname,
-            'views/register.html'
-        )
-    );
-
-});
-
-
 
 app.get('/dashboard',(req,res)=>{
 
     res.sendFile(
-        path.join(
-            __dirname,
-            'views/dashboard.html'
-        )
+        path.join(__dirname,'views/dashboard.html')
     );
 
 });
-
-
 
 app.get('/test',(req,res)=>{
 
     res.sendFile(
-        path.join(
-            __dirname,
-            'views/test.html'
-        )
+        path.join(__dirname,'views/test.html')
     );
 
 });
-
-
 
 app.get('/result',(req,res)=>{
 
     res.sendFile(
-        path.join(
-            __dirname,
-            'views/result.html'
-        )
+        path.join(__dirname,'views/result.html')
     );
 
 });
 
-
-
-app.get('/admin',(req,res)=>{
+app.get(
+    ['/admin','/admin.html'],
+    (req,res)=>{
 
     res.sendFile(
         path.join(
@@ -146,210 +131,31 @@ app.get('/admin',(req,res)=>{
 });
 
 
+// ADD QUESTION
 
-// REGISTER API
+app.post('/add-question', async (req,res)=>{
 
-app.post('/register',(req,res)=>{
+    try{
 
-    const {
+        const newQuestion =
+        new Question(req.body);
 
-        username,
-        email,
-        password
+        await newQuestion.save();
 
-    } = req.body;
+        res.json({
+            message:
+            "Question Added Successfully"
+        });
 
-    const sql = `
+    } catch(err){
 
-        INSERT INTO users
-        (
-            username,
-            email,
-            password
-        )
+        res.json({
+            message:"Error"
+        });
 
-        VALUES (?,?,?)
-
-    `;
-
-    db.query(
-
-        sql,
-
-        [
-            username,
-            email,
-            password
-        ],
-
-        (err,result)=>{
-
-            if(err){
-
-                console.log(err);
-
-                res.json({
-                    message:"Register Failed"
-                });
-
-            } else {
-
-                res.json({
-                    message:"Registration Successful"
-                });
-
-            }
-
-        }
-
-    );
+    }
 
 });
-
-
-
-// LOGIN API
-
-app.post('/login',(req,res)=>{
-
-    const {
-
-        email,
-        password
-
-    } = req.body;
-
-    const sql = `
-
-        SELECT *
-
-        FROM users
-
-        WHERE email=?
-        AND password=?
-
-    `;
-
-    db.query(
-
-        sql,
-
-        [
-            email,
-            password
-        ],
-
-        (err,result)=>{
-
-            if(err){
-
-                console.log(err);
-
-                res.json({
-                    success:false
-                });
-
-            } else {
-
-                if(result.length > 0){
-
-                    res.json({
-
-                        success:true,
-
-                        username:
-                        result[0].username
-
-                    });
-
-                } else {
-
-                    res.json({
-                        success:false
-                    });
-
-                }
-
-            }
-
-        }
-
-    );
-
-});
-
-
-
-// ADD QUESTION API
-
-app.post('/add-question',(req,res)=>{
-
-    const {
-
-        question,
-        option1,
-        option2,
-        option3,
-        option4,
-        answer
-
-    } = req.body;
-
-    const sql = `
-
-        INSERT INTO questions
-        (
-            question,
-            option1,
-            option2,
-            option3,
-            option4,
-            answer
-        )
-
-        VALUES (?,?,?,?,?,?)
-
-    `;
-
-    db.query(
-
-        sql,
-
-        [
-
-            question,
-            option1,
-            option2,
-            option3,
-            option4,
-            answer
-
-        ],
-
-        (err,result)=>{
-
-            if(err){
-
-                console.log(err);
-
-                res.json({
-                    message:"Database Error"
-                });
-
-            } else {
-
-                res.json({
-                    message:"Question Added Successfully"
-                });
-
-            }
-
-        }
-
-    );
-
-});
-
 
 
 // CSV UPLOAD
@@ -357,7 +163,7 @@ app.post('/add-question',(req,res)=>{
 app.post(
     '/upload-csv',
     upload.single('file'),
-    (req,res)=>{
+    async (req,res)=>{
 
     const results = [];
 
@@ -371,83 +177,23 @@ app.post(
 
     })
 
-    .on('end',()=>{
+    .on('end', async ()=>{
 
-        results.forEach((row)=>{
+        try{
 
-            const sql = `
+            await Question.insertMany(results);
 
-                INSERT INTO questions
-                (
-                    question,
-                    option1,
-                    option2,
-                    option3,
-                    option4,
-                    answer
-                )
+            res.json({
+                message:
+                "CSV Uploaded Successfully"
+            });
 
-                VALUES (?,?,?,?,?,?)
+        } catch(err){
 
-            `;
-
-            db.query(
-
-                sql,
-
-                [
-
-                    row.question,
-                    row.option1,
-                    row.option2,
-                    row.option3,
-                    row.option4,
-                    row.answer
-
-                ]
-
-            );
-
-        });
-
-        res.json({
-
-            message:
-            'CSV Uploaded Successfully'
-
-        });
-
-    });
-
-});
-
-
-
-// GET RANDOM QUESTIONS
-
-app.get('/api/questions',(req,res)=>{
-
-    const sql = `
-
-        SELECT *
-
-        FROM questions
-
-        ORDER BY RAND()
-
-        LIMIT 50
-
-    `;
-
-    db.query(sql,(err,result)=>{
-
-        if(err){
-
-            res.json(err);
-
-        } else {
-
-            res.json(result);
+            res.json({
+                message:
+                "CSV Upload Failed"
+            });
 
         }
 
@@ -455,107 +201,94 @@ app.get('/api/questions',(req,res)=>{
 
 });
 
+
+// RANDOM QUESTIONS
+
+app.get('/api/questions', async (req,res)=>{
+
+    try{
+
+        const questions =
+        await Question.aggregate([
+
+            {
+                $sample:{
+                    size:50
+                }
+            }
+
+        ]);
+
+        res.json(questions);
+
+    } catch(err){
+
+        res.json([]);
+
+    }
+
+});
 
 
 // SAVE RESULT
 
-app.post('/save-result',(req,res)=>{
+app.post('/save-result', async (req,res)=>{
 
-    const {
+    try{
 
-        username,
-        score,
-        total_questions
+        const result =
+        new Result(req.body);
 
-    } = req.body;
+        await result.save();
 
-    const sql = `
+        res.json({
+            message:"Result Saved"
+        });
 
-        INSERT INTO results
-        (
-            username,
-            score,
-            total_questions
-        )
+    } catch(err){
 
-        VALUES (?,?,?)
+        res.json({
+            message:"Error"
+        });
 
-    `;
-
-    db.query(
-
-        sql,
-
-        [
-
-            username,
-            score,
-            total_questions
-
-        ],
-
-        (err,result)=>{
-
-            if(err){
-
-                res.json(err);
-
-            } else {
-
-                res.json({
-                    message:"Result Saved"
-                });
-
-            }
-
-        }
-
-    );
+    }
 
 });
 
 
+// LEADERBOARD
 
-// LEADERBOARD API
+app.get('/leaderboard', async (req,res)=>{
 
-app.get('/leaderboard',(req,res)=>{
+    try{
 
-    const sql = `
+        const data =
+        await Result.find()
 
-        SELECT *
+        .sort({score:-1})
 
-        FROM results
+        .limit(10);
 
-        ORDER BY score DESC
+        res.json(data);
 
-        LIMIT 10
+    } catch(err){
 
-    `;
+        res.json([]);
 
-    db.query(sql,(err,result)=>{
-
-        if(err){
-
-            res.json(err);
-
-        } else {
-
-            res.json(result);
-
-        }
-
-    });
+    }
 
 });
-
 
 
 // SERVER
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+process.env.PORT || 3000;
 
 app.listen(PORT,()=>{
 
-    console.log(`Server Running on ${PORT}`);
+    console.log(
+        `Server Running on ${PORT}`
+    );
 
 });
