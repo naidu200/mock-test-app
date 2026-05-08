@@ -1,67 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 
-<meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <style>
 
-<title>Login</title>
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+        }
 
-<style>
+        .container{
+            width:350px;
+            margin:100px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
 
-body{
-    font-family:Arial;
-    background:#f4f4f4;
-}
+        input{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
 
-.container{
-    max-width:400px;
-    margin:100px auto;
-    background:white;
-    padding:30px;
-    border-radius:10px;
-}
+        button{
+            width:100%;
+            padding:12px;
+            margin-top:15px;
+            background:blue;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
 
-input{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-}
+        button:hover{
+            background:darkblue;
+        }
 
-button{
-    width:100%;
-    padding:12px;
-    margin-top:20px;
-    background:blue;
-    color:white;
-    border:none;
-}
+        a{
+            text-decoration:none;
+        }
 
-</style>
+        #message{
+            margin-top:15px;
+            color:red;
+            text-align:center;
+        }
+
+    </style>
 
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1>Login</h1>
+    <h1 align="center">
+        Login
+    </h1>
 
     <form id="loginForm">
 
         <input
             type="email"
             id="email"
-            placeholder="Email"
+            placeholder="Enter Email"
             required
         >
 
         <input
             type="password"
             id="password"
-            placeholder="Password"
+            placeholder="Enter Password"
             required
         >
 
@@ -71,11 +89,15 @@ button{
 
     </form>
 
-    <br>
+    <p align="center">
 
-    <a href="/register.html">
-        Create Account
-    </a>
+        Don't have account?
+
+        <a href="/register.html">
+            Register
+        </a>
+
+    </p>
 
     <h3 id="message"></h3>
 
@@ -85,58 +107,62 @@ button{
 
 document
 .getElementById("loginForm")
-.addEventListener(
-    "submit",
-    async function(e){
+.addEventListener("submit", async function(e){
 
     e.preventDefault();
 
     const data = {
 
         email:
-        document.getElementById(
-            "email"
-        ).value,
+        document.getElementById("email").value,
 
         password:
-        document.getElementById(
-            "password"
-        ).value
+        document.getElementById("password").value
 
     };
 
-    const response =
-    await fetch('/login',{
+    try{
 
-        method:'POST',
+        const response = await fetch('/login',{
 
-        headers:{
-            'Content-Type':'application/json'
-        },
+            method:'POST',
 
-        body:JSON.stringify(data)
+            headers:{
+                'Content-Type':'application/json'
+            },
 
-    });
+            body:JSON.stringify(data)
 
-    const result =
-    await response.json();
+        });
 
-    if(result.success){
+        const result = await response.json();
 
-        localStorage.setItem(
-            "username",
-            result.username
-        );
+        console.log(result);
 
-        window.location.href =
-        '/dashboard';
+        if(result.success){
 
-    } else {
+            localStorage.setItem(
+                "username",
+                result.username
+            );
+
+            window.location.href = "/dashboard";
+
+        } else {
+
+            document
+            .getElementById("message")
+            .innerHTML = result.message;
+
+        }
+
+    } catch(error){
+
+        console.log(error);
 
         document
         .getElementById("message")
-        .innerHTML =
-        "Invalid Login";
+        .innerHTML = "Login Error";
 
     }
 

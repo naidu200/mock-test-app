@@ -1,53 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result</title>
+  <link rel="stylesheet" href="/css/style.css">
 
-<title>Result</title>
+  <style>
+    .result-container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-<style>
-
-body{
-    font-family:Arial;
-    background:#f4f4f4;
-    padding:20px;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-}
-
-</style>
-
+    .question {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
+<div class="result-container">
+  <h1>Test Result</h1>
 
-    <h1>
-        Your Score:
-        <span id="score"></span>
-    </h1>
+  <h2>
+    Score:
+    <span id="score"></span> /
+    <span id="total"></span>
+  </h2>
 
-    <div id="answers"></div>
+  <a href="/dashboard">
+    <button>Back to Dashboard</button>
+  </a>
 
+  <br><br>
+
+  <div id="answers"></div>
 </div>
 
 <script>
+document.getElementById("score").innerHTML =
+  localStorage.getItem("score") || "0";
 
-document.getElementById("score")
-.innerHTML =
-localStorage.getItem("score");
+document.getElementById("total").innerHTML =
+  localStorage.getItem("totalQuestions") || "0";
 
-document.getElementById("answers")
-.innerHTML =
-localStorage.getItem("resultHTML");
-
+document.getElementById("answers").innerHTML =
+  localStorage.getItem("resultHTML") || "No result found.";
 </script>
 
 </body>

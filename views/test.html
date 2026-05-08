@@ -1,439 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <title>Mock Test</title>
+  <link rel="stylesheet" href="/css/style.css">
 
-<meta charset="UTF-8">
+  <style>
+    .test-container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    .question {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
 
-<title>Mock Test</title>
+    .option {
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
 
-<style>
-
-body{
-    font-family:Arial;
-    background:#f4f4f4;
-    padding:20px;
-}
-
-.container{
-    max-width:1000px;
-    margin:auto;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-}
-
-.question{
-    border:1px solid #ccc;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:10px;
-}
-
-.option{
-    padding:10px;
-    margin-top:10px;
-    border:1px solid #ddd;
-    border-radius:5px;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    background:blue;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:18px;
-}
-
-#timer{
-    font-size:30px;
-    color:red;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-</style>
-
+    #timer {
+      color: red;
+      font-size: 28px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="test-container">
+  <h1>Online Mock Test</h1>
 
-    <h1 align="center">
-        Online Mock Test
-    </h1>
+  <div id="timer">01:00:00</div>
 
-    <div id="timer">
-        01:00:00
-    </div>
+  <div id="questionsContainer"></div>
 
-    <div id="questionsContainer"></div>
-
-    <button onclick="submitTest()">
-        Submit Test
-    </button>
-
+  <button onclick="submitTest()">Submit Test</button>
 </div>
 
 <script>
-
 let questions = [];
+let submitted = false;
 
+async function loadQuestions() {
+  const response = await fetch("/api/questions");
+  questions = await response.json();
 
-// LOAD QUESTIONS
+  if (questions.length === 0) {
+    document.getElementById("questionsContainer").innerHTML =
+      "<h2>No questions found. Upload questions from admin panel.</h2>";
+    return;
+  }
 
-async function loadQuestions(){
-
-    try{
-
-        const response =
-        await fetch('/api/questions');
-
-        questions =
-        await response.json();
-
-        displayQuestions();
-
-    }
-    catch(error){
-
-        console.log(error);
-
-    }
-
+  displayQuestions();
 }
 
+function displayQuestions() {
+  const container = document.getElementById("questionsContainer");
+  container.innerHTML = "";
 
-// DISPLAY QUESTIONS
+  questions.forEach((q, index) => {
+    container.innerHTML += `
+      <div class="question">
+        <h3>${index + 1}. ${q.question}</h3>
 
-function displayQuestions(){
-
-    const container =
-    document.getElementById(
-        "questionsContainer"
-    );
-
-    container.innerHTML = "";
-
-    questions.forEach((q,index)=>{
-
-        container.innerHTML += `
-
-        <div class="question">
-
-            <h3>
-                ${index+1}.
-                ${q.question}
-            </h3>
-
-            <div class="option">
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="q${index}"
-                        value="${q.option1}"
-                    >
-
-                    ${q.option1}
-
-                </label>
-
-            </div>
-
-            <div class="option">
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="q${index}"
-                        value="${q.option2}"
-                    >
-
-                    ${q.option2}
-
-                </label>
-
-            </div>
-
-            <div class="option">
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="q${index}"
-                        value="${q.option3}"
-                    >
-
-                    ${q.option3}
-
-                </label>
-
-            </div>
-
-            <div class="option">
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="q${index}"
-                        value="${q.option4}"
-                    >
-
-                    ${q.option4}
-
-                </label>
-
-            </div>
-
+        <div class="option">
+          <label>
+            <input type="radio" name="q${index}" value="${q.option1}">
+            ${q.option1}
+          </label>
         </div>
 
-        `;
+        <div class="option">
+          <label>
+            <input type="radio" name="q${index}" value="${q.option2}">
+            ${q.option2}
+          </label>
+        </div>
 
-    });
+        <div class="option">
+          <label>
+            <input type="radio" name="q${index}" value="${q.option3}">
+            ${q.option3}
+          </label>
+        </div>
 
+        <div class="option">
+          <label>
+            <input type="radio" name="q${index}" value="${q.option4}">
+            ${q.option4}
+          </label>
+        </div>
+      </div>
+    `;
+  });
 }
-
 
 loadQuestions();
 
-
-// TIMER
-
 let timeLeft = 3600;
 
-const timer =
-document.getElementById("timer");
+const countdown = setInterval(() => {
+  let hours = Math.floor(timeLeft / 3600);
+  let minutes = Math.floor((timeLeft % 3600) / 60);
+  let seconds = timeLeft % 60;
 
-const countdown = setInterval(()=>{
+  document.getElementById("timer").innerHTML =
+    `${String(hours).padStart(2, "0")}:` +
+    `${String(minutes).padStart(2, "0")}:` +
+    `${String(seconds).padStart(2, "0")}`;
 
-    let hours =
-    Math.floor(timeLeft / 3600);
+  timeLeft--;
 
-    let minutes =
-    Math.floor(
-        (timeLeft % 3600)/60
-    );
+  if (timeLeft < 0) {
+    clearInterval(countdown);
+    submitTest();
+  }
+}, 1000);
 
-    let seconds =
-    timeLeft % 60;
+function submitTest() {
+  if (submitted) return;
+  submitted = true;
 
-    timer.innerHTML =
+  let score = 0;
+  let resultHTML = "";
 
-    `${String(hours).padStart(2,'0')}:`
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    const userAnswer = selected ? selected.value : "Not Answered";
+    const correct = userAnswer === q.answer;
 
-    +
-
-    `${String(minutes).padStart(2,'0')}:`
-
-    +
-
-    `${String(seconds).padStart(2,'0')}`;
-
-    timeLeft--;
-
-    if(timeLeft < 0){
-
-        clearInterval(countdown);
-
-        submitTest();
-
+    if (correct) {
+      score += 1;
+    } else if (userAnswer !== "Not Answered") {
+      score -= 0.25;
     }
 
-},1000);
+    const options = [q.option1, q.option2, q.option3, q.option4];
 
+    resultHTML += `
+      <div class="question">
+        <h3>${index + 1}. ${q.question}</h3>
+    `;
 
-// SUBMIT TEST
+    options.forEach((option) => {
+      let bg = "#f4f4f4";
 
-function submitTest(){
+      if (option === q.answer) {
+        bg = "lightgreen";
+      }
 
-    let score = 0;
+      if (option === userAnswer && userAnswer !== q.answer) {
+        bg = "#ffb3b3";
+      }
 
-    let resultHTML = "";
-
-    questions.forEach((q,index)=>{
-
-        const selected =
-        document.querySelector(
-            `input[name="q${index}"]:checked`
-        );
-
-        let userAnswer =
-        selected
-        ?
-        selected.value
-        :
-        "Not Answered";
-
-        let correct =
-        userAnswer === q.answer;
-
-
-        // SCORE
-
-        if(correct){
-
-            score++;
-
-        }
-        else if(
-            userAnswer !== "Not Answered"
-        ){
-
-            score -= 0.25;
-
-        }
-
-
-        // RESULT DISPLAY
-
-        resultHTML += `
-
+      resultHTML += `
         <div style="
-            border:1px solid #ccc;
-            padding:20px;
-            margin-bottom:20px;
-            border-radius:10px;
+          padding:10px;
+          margin-top:8px;
+          border-radius:5px;
+          background:${bg};
         ">
-
-            <h3>
-                ${index+1}.
-                ${q.question}
-            </h3>
-
-            <div style="
-                padding:10px;
-                margin-top:10px;
-                background:
-                ${
-                    q.option1 === q.answer
-                    ?
-                    'lightgreen'
-                    :
-                    q.option1 === userAnswer
-                    ?
-                    '#ffb3b3'
-                    :
-                    '#f4f4f4'
-                };
-            ">
-
-                ${q.option1}
-
-            </div>
-
-            <div style="
-                padding:10px;
-                margin-top:10px;
-                background:
-                ${
-                    q.option2 === q.answer
-                    ?
-                    'lightgreen'
-                    :
-                    q.option2 === userAnswer
-                    ?
-                    '#ffb3b3'
-                    :
-                    '#f4f4f4'
-                };
-            ">
-
-                ${q.option2}
-
-            </div>
-
-            <div style="
-                padding:10px;
-                margin-top:10px;
-                background:
-                ${
-                    q.option3 === q.answer
-                    ?
-                    'lightgreen'
-                    :
-                    q.option3 === userAnswer
-                    ?
-                    '#ffb3b3'
-                    :
-                    '#f4f4f4'
-                };
-            ">
-
-                ${q.option3}
-
-            </div>
-
-            <div style="
-                padding:10px;
-                margin-top:10px;
-                background:
-                ${
-                    q.option4 === q.answer
-                    ?
-                    'lightgreen'
-                    :
-                    q.option4 === userAnswer
-                    ?
-                    '#ffb3b3'
-                    :
-                    '#f4f4f4'
-                };
-            ">
-
-                ${q.option4}
-
-            </div>
-
-            <br>
-
-            <b>
-                Your Answer:
-            </b>
-
-            ${userAnswer}
-
-            <br><br>
-
-            <b>
-                Correct Answer:
-            </b>
-
-            ${q.answer}
-
+          ${option}
         </div>
-
-        `;
-
+      `;
     });
 
+    resultHTML += `
+        <p><b>Your Answer:</b> ${userAnswer}</p>
+        <p><b>Correct Answer:</b> ${q.answer}</p>
+        <p><b>Status:</b> ${correct ? "Correct" : "Wrong"}</p>
+      </div>
+    `;
+  });
 
-    localStorage.setItem(
-        "score",
-        score
-    );
+  const username = localStorage.getItem("username") || "Student";
 
-    localStorage.setItem(
-        "resultHTML",
-        resultHTML
-    );
+  localStorage.setItem("score", score);
+  localStorage.setItem("totalQuestions", questions.length);
+  localStorage.setItem("resultHTML", resultHTML);
 
+  fetch("/save-result", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: username,
+      score: score,
+      total_questions: questions.length
+    })
+  });
 
-    window.location.href =
-    '/result';
-
+  window.location.href = "/result";
 }
-
 </script>
 
 </body>

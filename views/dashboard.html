@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
-
-    <link rel="stylesheet" href="/css/style.css">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
 
 <div class="container">
+  <h1>Mock Test Dashboard</h1>
+  <h3>Welcome, <span id="username"></span></h3>
 
-    <h1>Available Mock Tests</h1>
+  <a href="/test">
+    <button>Start Mock Test</button>
+  </a>
 
-    <div>
+  <br><br>
 
-        <h3>Java Mock Test</h3>
+  <a href="/admin">
+    <button>Admin Panel</button>
+  </a>
 
-        <a href="/test">
-            <button>Start Test</button>
-        </a>
+  <br><br>
 
-    </div>
-
+  <button onclick="logout()">Logout</button>
 </div>
+
+<script>
+document.getElementById("username").innerHTML =
+  localStorage.getItem("username") || "Student";
+
+function logout() {
+  localStorage.clear();
+  window.location.href = "/";
+}
+</script>
 
 </body>
 </html>
