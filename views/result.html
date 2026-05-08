@@ -13,6 +13,20 @@
       border-radius: 10px;
     }
 
+    .summary-box {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .box {
+      background: #f4f4f4;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
     .question {
       border: 1px solid #ccc;
       padding: 15px;
@@ -26,11 +40,32 @@
 <div class="result-container">
   <h1>Test Result</h1>
 
-  <h2>
-    Score:
-    <span id="score"></span> /
-    <span id="total"></span>
-  </h2>
+  <div class="summary-box">
+    <div class="box">
+      <h3>Score</h3>
+      <p><span id="score"></span>/<span id="maxMarks"></span></p>
+    </div>
+
+    <div class="box">
+      <h3>Total</h3>
+      <p id="total"></p>
+    </div>
+
+    <div class="box">
+      <h3>Correct</h3>
+      <p id="correct"></p>
+    </div>
+
+    <div class="box">
+      <h3>Wrong</h3>
+      <p id="wrong"></p>
+    </div>
+
+    <div class="box">
+      <h3>Not Answered</h3>
+      <p id="notAnswered"></p>
+    </div>
+  </div>
 
   <a href="/dashboard">
     <button>Back to Dashboard</button>
@@ -45,8 +80,20 @@
 document.getElementById("score").innerHTML =
   localStorage.getItem("score") || "0";
 
+document.getElementById("maxMarks").innerHTML =
+  localStorage.getItem("maxMarks") || "0";
+
 document.getElementById("total").innerHTML =
   localStorage.getItem("totalQuestions") || "0";
+
+document.getElementById("correct").innerHTML =
+  localStorage.getItem("correct") || "0";
+
+document.getElementById("wrong").innerHTML =
+  localStorage.getItem("wrong") || "0";
+
+document.getElementById("notAnswered").innerHTML =
+  localStorage.getItem("notAnswered") || "0";
 
 document.getElementById("answers").innerHTML =
   localStorage.getItem("resultHTML") || "No result found.";

@@ -17,44 +17,37 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("MongoDB Error:", err.message));
 
-const userSchema = new mongoose.Schema({
+const User = mongoose.model("User", new mongoose.Schema({
   username: String,
   email: String,
   password: String
-});
+}));
 
-const questionSchema = new mongoose.Schema({
+const Question = mongoose.model("Question", new mongoose.Schema({
+  testName: String,
   question: String,
   option1: String,
   option2: String,
   option3: String,
   option4: String,
   answer: String
-});
+}));
 
-const resultSchema = new mongoose.Schema({
+const Result = mongoose.model("Result", new mongoose.Schema({
   username: String,
+  testName: String,
   score: Number,
   total_questions: Number,
-  date: {
-    type: Date,
-    default: Date.now
-  }
-});
+  correct: Number,
+  wrong: Number,
+  not_answered: Number,
+  max_marks: Number,
+  date: { type: Date, default: Date.now }
+}));
 
-const User = mongoose.model("User", userSchema);
-const Question = mongoose.model("Question", questionSchema);
-const Result = mongoose.model("Result", resultSchema);
+if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
 
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
-const upload = multer({
-  dest: "uploads/"
-});
-
-// PAGE ROUTES
+const upload = multer({ dest: "uploads/" });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "login.html"));
@@ -80,8 +73,6 @@ app.get(["/admin", "/admin.html"], (req, res) => {
   res.sendFile(path.join(__dirname, "views", "admin.html"));
 });
 
-// REGISTER API
-
 app.post("/register", async (req, res) => {
   try {
     let { username, email, password } = req.body;
@@ -91,43 +82,23 @@ app.post("/register", async (req, res) => {
     password = password ? password.trim() : "";
 
     if (!username || !email || !password) {
-      return res.json({
-        success: false,
-        message: "All fields are required"
-      });
+      return res.json({ success: false, message: "All fields required" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const exists = await User.findOne({ email });
 
-    if (existingUser) {
-      return res.json({
-        success: false,
-        message: "Email already exists"
-      });
+    if (exists) {
+      return res.json({ success: false, message: "Email already exists" });
     }
 
-    await User.create({
-      username,
-      email,
-      password
-    });
+    await User.create({ username, email, password });
 
-    res.json({
-      success: true,
-      message: "Registration Successful"
-    });
-
+    res.json({ success: true, message: "Registration Successful" });
   } catch (err) {
-    console.log("Register Error:", err);
-
-    res.json({
-      success: false,
-      message: "Registration Failed"
-    });
+    console.log(err);
+    res.json({ success: false, message: "Registration Failed" });
   }
 });
-
-// LOGIN API
 
 app.post("/login", async (req, res) => {
   try {
@@ -136,49 +107,27 @@ app.post("/login", async (req, res) => {
     email = email ? email.trim().toLowerCase() : "";
     password = password ? password.trim() : "";
 
-    if (!email || !password) {
-      return res.json({
-        success: false,
-        message: "Email and password required"
-      });
-    }
-
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.json({
-        success: false,
-        message: "Email not found"
-      });
+      return res.json({ success: false, message: "Email not found" });
     }
 
     if (user.password !== password) {
-      return res.json({
-        success: false,
-        message: "Wrong password"
-      });
+      return res.json({ success: false, message: "Wrong password" });
     }
 
-    res.json({
-      success: true,
-      username: user.username
-    });
-
+    res.json({ success: true, username: user.username });
   } catch (err) {
-    console.log("Login Error:", err);
-
-    res.json({
-      success: false,
-      message: "Login Failed"
-    });
+    console.log(err);
+    res.json({ success: false, message: "Login Failed" });
   }
 });
-
-// ADD QUESTION API
 
 app.post("/add-question", async (req, res) => {
   try {
     const {
+      testName,
       question,
       option1,
       option2,
@@ -187,13 +136,12 @@ app.post("/add-question", async (req, res) => {
       answer
     } = req.body;
 
-    if (!question || !option1 || !option2 || !option3 || !option4 || !answer) {
-      return res.json({
-        message: "All question fields are required"
-      });
+    if (!testName || !question || !option1 || !option2 || !option3 || !option4 || !answer) {
+      return res.json({ message: "All fields required" });
     }
 
     await Question.create({
+      testName,
       question: question.trim(),
       option1: option1.trim(),
       option2: option2.trim(),
@@ -202,30 +150,25 @@ app.post("/add-question", async (req, res) => {
       answer: answer.trim()
     });
 
-    res.json({
-      message: "Question Added Successfully"
-    });
-
+    res.json({ message: `Question Added to ${testName}` });
   } catch (err) {
-    console.log("Question Add Error:", err);
-
-    res.json({
-      message: "Question Add Failed"
-    });
+    console.log(err);
+    res.json({ message: "Question Add Failed" });
   }
 });
 
-// CSV UPLOAD API
-
 app.post("/upload-csv", upload.single("file"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.json({
-        message: "No file uploaded"
-      });
+    const rows = [];
+    const testName = req.body.testName;
+
+    if (!testName) {
+      return res.json({ message: "Test name missing" });
     }
 
-    const rows = [];
+    if (!req.file) {
+      return res.json({ message: "CSV file missing" });
+    }
 
     fs.createReadStream(req.file.path)
       .pipe(csv())
@@ -239,6 +182,7 @@ app.post("/upload-csv", upload.single("file"), async (req, res) => {
           row.answer
         ) {
           rows.push({
+            testName: testName,
             question: row.question.trim(),
             option1: row.option1.trim(),
             option2: row.option2.trim(),
@@ -257,77 +201,92 @@ app.post("/upload-csv", upload.single("file"), async (req, res) => {
           fs.unlinkSync(req.file.path);
 
           res.json({
-            message: `${rows.length} Questions Uploaded Successfully`
+            message: `${rows.length} Questions Uploaded for ${testName}`
           });
-
         } catch (err) {
-          console.log("CSV Insert Error:", err);
-
-          res.json({
-            message: "CSV Upload Failed"
-          });
+          console.log(err);
+          res.json({ message: "CSV Upload Failed" });
         }
       });
-
   } catch (err) {
-    console.log("CSV Upload Error:", err);
-
-    res.json({
-      message: "CSV Upload Failed"
-    });
+    console.log(err);
+    res.json({ message: "CSV Upload Failed" });
   }
 });
 
-// RANDOM QUESTIONS API
-
-app.get("/api/questions", async (req, res) => {
+app.get("/api/questions/:testName", async (req, res) => {
   try {
+    const testName = req.params.testName;
+
     const questions = await Question.aggregate([
-      {
-        $sample: {
-          size: 50
-        }
-      }
+      { $match: { testName: testName } },
+      { $sample: { size: 50 } }
     ]);
 
     res.json(questions);
-
   } catch (err) {
-    console.log("Question Fetch Error:", err);
+    console.log(err);
     res.json([]);
   }
 });
 
-// SAVE RESULT API
+app.get("/api/questions", async (req, res) => {
+  try {
+    const questions = await Question.aggregate([
+      { $sample: { size: 50 } }
+    ]);
+
+    res.json(questions);
+  } catch (err) {
+    console.log(err);
+    res.json([]);
+  }
+});
 
 app.post("/save-result", async (req, res) => {
   try {
     const {
       username,
+      testName,
       score,
-      total_questions
+      total_questions,
+      correct,
+      wrong,
+      not_answered,
+      max_marks
     } = req.body;
 
     await Result.create({
-      username: username || "Student",
-      score: Number(score),
-      total_questions: Number(total_questions)
+      username,
+      testName,
+      score,
+      total_questions,
+      correct,
+      wrong,
+      not_answered,
+      max_marks
     });
 
-    res.json({
-      message: "Result Saved"
-    });
-
+    res.json({ message: "Result Saved" });
   } catch (err) {
-    console.log("Result Save Error:", err);
-
-    res.json({
-      message: "Result Save Failed"
-    });
+    console.log(err);
+    res.json({ message: "Result Save Failed" });
   }
 });
 
-// LEADERBOARD API
+app.get("/attempts/:username", async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const attempts = await Result.find({ username })
+      .sort({ date: -1 })
+      .limit(5);
+
+    res.json(attempts);
+  } catch (err) {
+    res.json([]);
+  }
+});
 
 app.get("/leaderboard", async (req, res) => {
   try {
@@ -336,9 +295,7 @@ app.get("/leaderboard", async (req, res) => {
       .limit(10);
 
     res.json(results);
-
   } catch (err) {
-    console.log("Leaderboard Error:", err);
     res.json([]);
   }
 });
